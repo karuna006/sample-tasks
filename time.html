@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time</title>
+    <script src="./jquery.min.js"></script>
+    <link rel="stylesheet" href="./time.css">
+</head>
+<body>
+    <div class="main">
+        <div class="div-01">
+            <span class="top"></span>
+            <span class="up-l"></span>
+            <span class="up-r"></span>
+            <span class="middle"></span>
+            <span class="do-l"></span>
+            <span class="do-r"></span>
+            <span class="bottom"></span>            
+        </div>
+        <div class="div-02">
+            <span class="top"></span>
+            <span class="up-l"></span>
+            <span class="up-r"></span>
+            <span class="middle"></span>
+            <span class="do-l"></span>
+            <span class="do-r"></span>
+            <span class="bottom"></span>
+        </div>
+        <div class="dot-div">
+            <span class="dot-t"></span>            
+            <span class="dot-b"></span>
+        </div>
+        <div class="div-03">
+            <span class="top"></span>
+            <span class="up-l"></span>
+            <span class="up-r"></span>
+            <span class="middle"></span>
+            <span class="do-l"></span>
+            <span class="do-r"></span>
+            <span class="bottom"></span>
+        </div>
+        <div class="div-04">
+            <span class="top"></span>
+            <span class="up-l"></span>
+            <span class="up-r"></span>
+            <span class="middle"></span>
+            <span class="do-l"></span>
+            <span class="do-r"></span>
+            <span class="bottom"></span>
+        </div>
+        <div class="dot-div">
+            <span class="dot-t"></span>            
+            <span class="dot-b"></span>
+        </div>
+        <div class="div-05">
+            <span class="top"></span>
+            <span class="up-l"></span>
+            <span class="up-r"></span>
+            <span class="middle"></span>
+            <span class="do-l"></span>
+            <span class="do-r"></span>
+            <span class="bottom"></span>
+        </div>
+        <div class="div-06">
+            <span class="top"></span>
+            <span class="up-l"></span>
+            <span class="up-r"></span>
+            <span class="middle"></span>
+            <span class="do-l"></span>
+            <span class="do-r"></span>
+            <span class="bottom"></span>
+        </div>
+    </div>
+    <script>
+        number_list = ['<span class="top"></span>'+
+            '<span class="up-l"></span>'+
+            '<span class="up-r"></span>'+            
+            '<span class="do-l"></span>'+
+            '<span class="do-r"></span>'+
+            '<span class="bottom"></span>','<span class="up-r"></span> <span class="do-r"></span>','<span class="top"></span><span class="up-r"></span><span class="middle"></span>            <span class="do-l"></span><span class="bottom"></span>','<span class="top"></span><span class="up-r"></span><span class="middle"></span><span class="do-r"></span><span class="bottom"></span>','<span class="up-l"></span><span class="up-r"></span><span class="middle"></span><span class="do-r"></span>','<span class="top"></span><span class="up-l"></span><span class="middle"></span><span class="do-r"></span><span class="bottom"></span>','<span class="top"></span><span class="up-l"></span><span class="middle"></span><span class="do-l"></span><span class="do-r"></span><span class="bottom"></span>','<span class="top"></span><span class="up-r"></span><span class="do-r"></span>','<span class="top"></span>'+
+            '<span class="up-l"></span>'+
+            '<span class="up-r"></span>'+
+            '<span class="middle"></span>'+
+            '<span class="do-l"></span>'+
+            '<span class="do-r"></span>'+
+            '<span class="bottom"></span>','<span class="top"></span><span class="up-l"></span><span class="up-r"></span><span class="middle"></span><span class="do-r"></span>'];
+
+            function pad(d) {
+                return (d < 10) ? '0' + d.toString() : d.toString();
+            }
+                     
+            setInterval(function () 
+            {
+                date = new Date();
+                hour = String(pad(date.getHours() % 12 || 12));
+                min = String(pad(date.getMinutes()));
+                sec = String(pad(date.getSeconds()));   
+                $('.div-01').html(number_list[hour.charAt(0)]);
+                $('.div-02').html(number_list[hour.charAt(1)]);
+                $('.div-03').html(number_list[min.charAt(0)]);
+                $('.div-04').html(number_list[min.charAt(1)]);
+                $('.div-05').html(number_list[sec.charAt(0)]);
+                $('.div-06').html(number_list[sec.charAt(1)]);
+            }, 1000);
+    </script>
+</body>
+</html>

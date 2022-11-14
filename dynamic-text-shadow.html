@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Demo</title>
+        <link rel="stylesheet" href="./bootstrap.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Unica+One&display=swap" rel="stylesheet">
+        <script src="./jquery.min.js"></script>
+        <style>
+            body
+            {
+                height: 100px;
+                text-align: center;
+                padding-top: 20%;
+                font-size: 4rem;
+                font-family: 'Unica One', cursive;
+            }
+        </style>
+    </head>
+    <body>    
+        This is demo code
+    </body>
+    <script>
+        w = $(window).width();
+        h = $(window).height();        
+        one_H_px = Math.round(h/40);
+        one_W_px = Math.round(w/40);
+        
+        var currentMousePos = { x: -1, y: -1 };
+        $(document).mousemove(function(event) {                
+            currentMousePos.x = Number((event.pageX/one_W_px).toFixed(0));
+            currentMousePos.y = Number((event.pageY/one_H_px).toFixed(0));
+            if(currentMousePos.x == 20)
+            {
+                currentMousePos.x = 0;
+            }
+            else
+            {
+                currentMousePos.x = 20-currentMousePos.x;
+            }     
+
+            if(currentMousePos.y == 20)
+            {
+                currentMousePos.y = 0;
+            }
+            else
+            {
+                currentMousePos.y = 20-currentMousePos.y;
+            }          
+
+            // $('body').html(((currentMousePos.x))+'  '+((currentMousePos.y)));                
+            $('body').css('textShadow','black '+currentMousePos.x+'px '+currentMousePos.y+'px 5px');
+        });        
+    </script>
+</html>

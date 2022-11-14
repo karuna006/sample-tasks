@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pascal triangle</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <script src="./jquery.min.js"></script>
+    <style>
+        /* *
+        {
+            color: #fff;
+        } */
+
+        .box
+        {
+            display: flex;           
+            height: 50px;
+            width: 100%;           
+            justify-content: center;
+        }
+
+        span
+        {
+            color: #fff;            
+            height: 40px;
+            width: 50px;
+            background-color: black;           
+            margin: 2px;
+            text-align: center;
+            line-height: 40px;
+            position: relative;
+        }      
+    </style>
+</head>
+<body>
+    <div class="container pt-3">
+        <h1 class="text-center">Triangle</h1>
+        <div class="row bg-dark pt-2 pb-2">
+            <div class="col-sm-3"></div>
+            <!-- <div class="col-sm-3">
+                <div class="form-group">                    
+                    <input type="number" class="form-control val" placeholder="Value" value="1">
+                </div>
+            </div> -->
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <!-- <label for="">Level</label> -->
+                    <input type="number" class="form-control lev" placeholder="Levels" value="1">
+                </div>
+            </div>
+            <div class="col-sm-3">                
+                <button class="btn btn-md btn-success btn-print">Print</button>
+                <button class="btn btn-md btn-danger mx-3 btn-reset">Reset</button>
+            </div>
+        </div>
+        <div class="main pt-5">
+            <!-- <div class="box">                
+                <span>1</span>  
+            </div>            -->
+        </div>
+    </div>
+    <script>
+        $(document).on('click','.btn-print',function(){
+            no = $('.val').val();
+            lev = $('.lev').val();
+            content = '';
+            $('.main').html('');
+            $('.lev').val('');
+
+            if(lev > 0)
+            {
+                for (i = 0; i < lev; i++)
+                {
+                    content = '<div class="box">';
+                    for(j = 0; j <= i; j++)
+                    {
+                        if(i == 0)
+                        {
+                            content += '<span>/\\</span>';
+                        }
+                        else
+                        {
+                            if(j == 0)
+                            {
+                                content += '<span>/</span>';
+                            }
+                            else if(j == i)
+                            {
+                                content += '<span>\\</span>';
+                            }
+                            else
+                            {
+                                if(i+1 == lev)
+                                {
+                                    content += '<span>__</span>';
+                                }
+                                else
+                                {
+                                    content += '<span></span>';
+                                }
+                            }
+                        }
+                    }
+                    content += '</div>';
+                    $('.main').append(content);
+                    content = '';
+                }
+            }
+            else
+            {
+                alert('Pls give higher value');
+            }
+        });
+    </script>
+</body>
+</html>
