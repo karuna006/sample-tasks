@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess</title>
+    <link rel="stylesheet" href="./bootstrap.min.css">  
+    <link rel="stylesheet" href="chess.css">  
+    <!-- <link rel="stylesheet" href="all.css">   -->
+    <script src="./jquery.min.js"></script>
+    <script src="./bootstrap.bundle.min.js"></script>    
+    <script src="./chess.js"></script>    
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>    
+</head>
+<body class="bg-dark">
+    <div class="container mt-3">
+        <h1 class="text-white text-center">#Chess</h1>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label>Row ( Rank )</label>
+                            <!-- Get No of Row -->
+                            <input type="number" class="form-control form-control-sm rank" placeholder="Rank" value="8">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label>Column ( File )</label>
+                            <!-- Get No of column -->
+                            <input type="number" class="form-control form-control-sm file" placeholder="File" value="8">
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>&nbsp;</label>
+                            <!-- Get first color of cell -->
+                            <input type="color" id="color1" name="color1" class="form-control" value="#e3c16f">
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>&nbsp;</label>
+                            <!-- Get second color of cell -->
+                            <input type="color" id="color2" name="color2" class="form-control" value="#b88b4a">
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group d-grid">
+                            <br>
+                            <button type="button" class="btn btn-sm btn-success btn-print">Print</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card mt-4">
+            <div class="card-body">
+                <table class="text-center">
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
