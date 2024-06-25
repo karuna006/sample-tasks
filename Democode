@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Draggable Stalls</title>
+  <!-- <link rel="stylesheet" href="styles.css"> -->
+   <style>
+    /* styles.css */
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  .shape-container {
+    display: flex;
+    gap: 10px;
+    padding: 20px;
+  }
+  
+  .shape {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: lightgray;
+    margin: 10px;
+    cursor: grab;
+    user-select: none;
+  }
+  
+  .rectangle {
+    width: var(--width, 100px);
+    height: var(--height, 50px);
+  }
+  
+  .square {
+    width: var(--size, 100px);
+    height: var(--size, 100px);
+  }
+  
+  .circle {
+    width: var(--size, 100px);
+    height: var(--size, 100px);
+    border-radius: 50%;
+  }
+  
+  .ground {
+    width: 90%;
+    height: 500px;
+    margin: 20px auto;
+    border: 2px dashed #ccc;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .ground p {
+    margin: 0;
+    pointer-events: none;
+  }
+  
+  .shape-dropped {
+    position: absolute;
+  }
+   </style>
+</head>
+<body>
+  <div class="shape-container">
+    <div id="rectangle" ondragstart="drag(event)" draggable="true" class="shape rectangle" data-width="100" data-height="50">Rectangle</div>
+    <div id="square" ondragstart="drag(event)" draggable="true" class="shape square" data-size="75">Square</div>
+    <div id="circle" ondragstart="drag(event)" draggable="true" class="shape circle" data-size="50">Circle</div>
+    <!-- Add other shapes as needed -->
+  </div>  
+
+  <div class="ground" ondrop="drop(event)" ondragover="allowDrop(event)">
+    <!-- <p>Drop stalls here</p> -->
+  </div>
+
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@interactjs/interactjs/dist/interact.min.js"></script> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script> -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <!-- <script src="script.js"></script> -->
+   <script>
+    let drop_data = "";
+    function allowDrop(ev) {
+      ev.preventDefault();
+    }
+
+    function drag(ev) {
+      drop_data = ev.target.id;
+      // console.log(ev.target.id);
+    } 
+
+    function drop(ev) {    
+      ev.preventDefault();
+      clone_data = $("#"+drop_data).clone(true);
+      console.log(clone_data);
+      $(".ground").append(clone_data);
+      // console.log(drop_data);
+    }
+    
+   </script>
+</body>
+</html>
