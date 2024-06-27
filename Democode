@@ -1,105 +1,278 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Draggable Stalls</title>
-  <!-- <link rel="stylesheet" href="styles.css"> -->
-   <style>
-    /* styles.css */
-body {
-    font-family: Arial, sans-serif;
-  }
-  
-  .shape-container {
-    display: flex;
-    gap: 10px;
-    padding: 20px;
-  }
-  
-  .shape {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: lightgray;
-    margin: 10px;
-    cursor: grab;
-    user-select: none;
-  }
-  
-  .rectangle {
-    width: var(--width, 100px);
-    height: var(--height, 50px);
-  }
-  
-  .square {
-    width: var(--size, 100px);
-    height: var(--size, 100px);
-  }
-  
-  .circle {
-    width: var(--size, 100px);
-    height: var(--size, 100px);
-    border-radius: 50%;
-  }
-  
-  .ground {
-    width: 90%;
-    height: 500px;
-    margin: 20px auto;
-    border: 2px dashed #ccc;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .ground p {
-    margin: 0;
-    pointer-events: none;
-  }
-  
-  .shape-dropped {
-    position: absolute;
-  }
-   </style>
-</head>
-<body>
-  <div class="shape-container">
-    <div id="rectangle" ondragstart="drag(event)" draggable="true" class="shape rectangle" data-width="100" data-height="50">Rectangle</div>
-    <div id="square" ondragstart="drag(event)" draggable="true" class="shape square" data-size="75">Square</div>
-    <div id="circle" ondragstart="drag(event)" draggable="true" class="shape circle" data-size="50">Circle</div>
-    <!-- Add other shapes as needed -->
-  </div>  
-
-  <div class="ground" ondrop="drop(event)" ondragover="allowDrop(event)">
-    <!-- <p>Drop stalls here</p> -->
-  </div>
-
-  <!-- <script src="https://cdn.jsdelivr.net/npm/@interactjs/interactjs/dist/interact.min.js"></script> -->
-  <!-- <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script> -->
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-  <!-- <script src="script.js"></script> -->
-   <script>
-    let drop_data = "";
-    function allowDrop(ev) {
-      ev.preventDefault();
+<?php include_once("./header.php") ?>
+<!-- Start::app-content -->
+<style>
+    .clone {
+        position: absolute;
     }
 
-    function drag(ev) {
-      drop_data = ev.target.id;
-      // console.log(ev.target.id);
-    } 
-
-    function drop(ev) {    
-      ev.preventDefault();
-      clone_data = $("#"+drop_data).clone(true);
-      console.log(clone_data);
-      $(".ground").append(clone_data);
-      // console.log(drop_data);
+    .shape-container {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
     }
-    
-   </script>
-</body>
-</html>
+
+    .shape {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: lightgray;
+        cursor: grab;
+        user-select: none;
+        font-size: 10px;
+    }
+
+    .rectangle {
+        width: 50px;
+        height: 25px;
+    }
+
+    .square {
+        width: 50px;
+        height: 50px;
+    }
+
+    .circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+
+    .selected {
+        /* 0 0 0 0.2rem #BFDBFE */
+        outline: 0 none;
+        outline-offset: 0;
+        box-shadow: 0 0 0 0.2rem #BFDBFE;
+    }
+
+    .ground {
+        width: 100%;
+        height: 400px;
+        border: 2px dashed #ccc;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .ground p {
+        margin: 0;
+        pointer-events: none;
+    }
+
+    .shape-dropped {
+        position: absolute;
+    }
+</style>
+<div class="main-content app-content">
+    <div class="container-fluid">
+        <!-- Start::row-1 -->
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card custom-card">
+                    <div class="card-header justify-content-between">
+                        <div class="card-title">Floor Control</div>
+                        <a aria-label="anchor" href="javascript:void(0);" data-bs-toggle="card-fullscreen">
+                            <i class="ri-fullscreen-line"></i>
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-1">
+                            <div class="col-md-9">
+                                <div class="ground">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="accordion" id="accordionExample">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingOne">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                Shapes
+                                            </button>
+                                        </h2>
+                                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <div class="shape-container">
+                                                    <div tabindex="0" id="rectangle" class="shape new_shape rectangle" data-width="100" data-height="50">Rectangle</div>
+                                                    <div tabindex="0" id="square" class="shape new_shape square" data-size="75">Square</div>
+                                                    <div id="circle" class="shape new_shape circle" data-size="50">Circle</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingTwo">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                Symbols
+                                            </button>
+                                        </h2>
+                                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingThree">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                property
+                                            </button>
+                                        </h2>
+                                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <input class="x_value form-control" type="number">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input class="y_value form-control" type="number">
+                                                    </div>
+                                                </div>
+                                                <div class="">
+                                                    <input class="form-control form-input-color color_field" type="color" value="#136bd0">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="heading4">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                                                Track
+                                            </button>
+                                        </h2>
+                                        <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End::row-1 -->
+    </div>
+</div>
+<!-- End::app-content -->
+<?php include_once("./footer.php") ?>
+<script>
+    let dropData = "";
+    let positionData = "";
+    let selectedData = "";
+    const elementsData = [];
+
+    function makeid(length) {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const charactersLength = characters.length;
+        let result = '';
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    }
+
+    $(document).ready(function() {
+        toggleSidemenu();
+        // $(".sidemenu-toggle").trigger("click");
+        function drop(ev) {
+            ev.preventDefault();
+
+            const parentData = $("#" + dropData);
+            const offsetX = ev.offsetX - positionData.x;
+            const offsetY = ev.offsetY - positionData.y;
+            const newId = makeid(8);
+
+            if (parentData.attr("clone") === undefined) {
+                const cloneData = parentData.clone(true)
+                    .attr('clone', true)
+                    .addClass("clone")
+                    .attr('id', newId)
+                    .css({
+                        left: offsetX,
+                        top: offsetY
+                    });
+
+                $(".ground").append(cloneData);
+
+                elementsData.push({
+                    id: newId,
+                    left: offsetX,
+                    top: offsetY
+                });
+            } else {
+                parentData.css({
+                    left: offsetX,
+                    top: offsetY
+                });
+
+                const element = elementsData.find(el => el.id === parentData.attr('id'));
+                if (element) {
+                    element.left = offsetX;
+                    element.top = offsetY;
+                }
+            }
+            console.log(elementsData);
+        }
+
+        $('.new_shape')
+            .on('mousedown', function(event) {
+                positionData = {
+                    x: event.offsetX,
+                    y: event.offsetY
+                };
+            })
+            .on('dragstart', function(event) {
+                dropData = event.target.id;
+            })
+            .attr('draggable', true);
+
+        $('.ground')
+            .on('dragover', function(event) {
+                event.preventDefault();
+            })
+            .on('drop', drop);
+
+    });
+
+    $(document).on('click', '.clone', function() {
+        $(".clone").removeClass('selected');
+        $(this).addClass('selected');
+        selectedData = $(this);
+        $(".color_field").val(rgbToHex(selectedData.css('background-color')));
+        $(".x_value").val(selectedData.css('left').slice(0,-2));
+        $(".y_value").val(selectedData.css('top').slice(0,-2));        
+    });
+
+    $(document).on('input', '.color_field', function() {        
+        if(selectedData) {
+            selectedData.css({'background-color' : $(this).val()});
+        }        
+    });    
+
+    $(document).on('input', '.x_value', function() {        
+        if(selectedData && $(this).val() >= 0) {
+            selectedData.css({'left' : $(this).val()+"px"});
+        }        
+    });    
+
+    $(document).on('input', '.y_value', function() {        
+        if(selectedData && $(this).val() >= 0) {
+            selectedData.css({'top' : $(this).val()+"px"});
+        }        
+    });    
+
+    // $(document).on('focusout', '.clone', function() {
+    //     $(".clone").removeClass('selected');
+    // });
+
+    function rgbToHex(rgb) {
+        // Extract the RGB values using a regular expression
+        var result = /^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/.exec(rgb);
+        return result ? "#" + ((1 << 24) + (parseInt(result[1]) << 16) + (parseInt(result[2]) << 8) + parseInt(result[3])).toString(16).slice(1).toUpperCase() : null;
+    }
+</script>
